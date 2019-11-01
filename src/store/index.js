@@ -25,7 +25,7 @@ export default new Vuex.Store({
       {
         id: '2',
         email: 'manager@gmail.com',
-        name: 'Jeremy Homeless',
+        name: 'Jeremy Lastname',
         company: 'Xbay',
         designation: 'Manager',
         avatar: 'https://images.unsplash.com/photo-1528763380143-65b3ac89a3ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=635&q=80',

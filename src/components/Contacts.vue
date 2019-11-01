@@ -28,6 +28,11 @@
             .info-value(v-if="!editMode") {{ modalData.id }}
             .edit(v-if="editMode")
               input(v-model="modalData.id")
+          .email
+            .info-label ID
+            .info-value(v-if="!editMode") {{ modalData.email }}
+            .edit(v-if="editMode")
+              input(v-model="modalData.email")
           .name
             .info-label NAME
             .info-value(v-if="!editMode") {{ modalData.name }}
