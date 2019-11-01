@@ -76,6 +76,7 @@ export default {
     },
     deleteSelected(id) {
       this.showModal = false;
+      this.editMode = false;
       this.modalData = {
         id: '',
         email: '',
