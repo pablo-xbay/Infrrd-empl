@@ -29,7 +29,7 @@
             .edit(v-if="editMode")
               input(v-model="modalData.id")
           .email
-            .info-label ID
+            .info-label EMAIL
             .info-value(v-if="!editMode") {{ modalData.email }}
             .edit(v-if="editMode")
               input(v-model="modalData.email")
