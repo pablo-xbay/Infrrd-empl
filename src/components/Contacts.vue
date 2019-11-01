@@ -193,9 +193,11 @@ export default {
       padding: 20px;
       .info-label {
         font-weight: bold;
+        font-size: 14px;
       }
       .info-value {
         margin-bottom: 10px;
+        font-size: 14px;
       }
       .action-bar {
         .ib {
@@ -209,6 +211,7 @@ export default {
       .avatar {
         img {
           max-width: 200px;
+          max-height: 200px;
         }
       }
     }
