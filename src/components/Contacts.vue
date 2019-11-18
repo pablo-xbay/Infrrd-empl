@@ -3,6 +3,8 @@
   .contact-wrap
     .search
       input(placeholder="Search" v-model="searchQuery")
+    .ib.personAdd(@click='addPerson()')
+      img(src="https://fonts.gstatic.com/s/i/materialicons/person_add/v1/24px.svg")
     .contact(v-for="user in filteredList" @click="openContact(user)")
       .avatar
         img(:src="user.avatar")
@@ -13,7 +15,7 @@
   .modal-wrap(v-if="showModal" @click="closeModal($event)")
     .modal(@click.stop)
       .action-bar
-        .ib.delete-btn(@click='deleteSelected(modalData.id)')
+        .ib.delete-btn(v-if="!addMode" @click='deleteSelected(modalData.id)')
           img(src="https://fonts.gstatic.com/s/i/materialicons/delete/v1/24px.svg")
         .ib.edit-btn(@click='edit')
           img(src="https://fonts.gstatic.com/s/i/materialicons/edit/v1/24px.svg")
@@ -25,31 +27,31 @@
         .info
           .id
             .info-label ID
-            .info-value(v-if="!editMode") {{ modalData.id }}
-            .edit(v-if="editMode")
+            .info-value(v-if="!editMode && !addMode") {{ modalData.id }}
+            .edit(v-if="editMode || addMode")
               input(v-model="modalData.id")
           .email
             .info-label EMAIL
-            .info-value(v-if="!editMode") {{ modalData.email }}
-            .edit(v-if="editMode")
+            .info-value(v-if="!editMode && !addMode") {{ modalData.email }}
+            .edit(v-if="editMode || addMode")
               input(v-model="modalData.email")
           .name
             .info-label NAME
-            .info-value(v-if="!editMode") {{ modalData.name }}
-            .edit(v-if="editMode")
+            .info-value(v-if="!editMode && !addMode") {{ modalData.name }}
+            .edit(v-if="editMode || addMode")
               input(v-model="modalData.name")
           .company
             .info-label COMPANY
-            .info-value(v-if="!editMode") {{ modalData.company }}
-            .edit(v-if="editMode")
+            .info-value(v-if="!editMode && !addMode") {{ modalData.company }}
+            .edit(v-if="editMode || addMode")
               input(v-model="modalData.company")
           .job-title
             .info-label DESIGNATION
-            .info-value(v-if="!editMode") {{ modalData.designation }}
-            .edit(v-if="editMode")
+            .info-value(v-if="!editMode && !addMode") {{ modalData.designation }}
+            .edit(v-if="editMode || addMode")
               input(v-model="modalData.designation")
         .save-btn
-          button(v-if="editMode" @click='save(modalData)') Save
+          button(v-if="editMode || addMode" @click='save(modalData)') Save
 </template>
 
 <script>
@@ -65,18 +67,26 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['deleteById', 'updateUser']),
+    ...mapActions(['deleteById', 'updateUser', 'addUser']),
+    addPerson() {
+      this.modalData = {};
+      this.showModal = true;
+      this.addMode = true;
+    },
     openContact(user) {
       this.modalData = user;
+      this.addMode = false;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
+      this.addMode = false;
       this.editMode = false;
     },
     deleteSelected(id) {
       this.showModal = false;
       this.editMode = false;
+      this.addMode = false;
       this.modalData = {
         id: '',
         email: '',
@@ -88,15 +98,22 @@ export default {
       this.deleteById(id);
     },
     edit() {
+      this.addMode = false;
       this.editMode = true;
     },
     save(newData) {
-      this.editMode = false;
-      this.updateUser(newData);
+      if (this.addMode) {
+        this.addUser(newData);
+        this.addMode = false;
+      } else {
+        this.editMode = false;
+        this.updateUser(newData);
+      }
     },
   },
   data() {
     return {
+      addMode: false,
       searchQuery: '',
       showModal: false,
       editMode: false,

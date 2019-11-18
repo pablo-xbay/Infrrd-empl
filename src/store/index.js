@@ -41,6 +41,9 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
+    ADD_USER: (state, data) => {
+      state.users.push(data);
+    },
     WRITE_USER: (state, newData) => {
       state.users = state.users.map((user) => {
         if (user.id === newData.id) {
@@ -55,6 +58,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    addUser({ commit }, user) {
+      commit('ADD_USER', user);
+    },
     deleteById({ commit }, id) {
       commit('DELETE_USER', id);
     },
